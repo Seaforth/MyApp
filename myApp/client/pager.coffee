@@ -1,5 +1,5 @@
 # Variables for pageing
-Session.set "page_size", 5
+Session.set "page_size", 10
 Session.set "start_record", 0
 Session.set "last_record", false
 Session.set "total_pages", 0
@@ -12,6 +12,12 @@ Session.set "previousEnabled", ""
 Session.set "nextEnabled", ""
 Session.set "lastEnabled", ""
 
+
+#Get the total record count for use in the pager
+if Meteor.is_client
+	Meteor.startup ->
+		Meteor.call("ContactsCount", myFunc)
+
 #This will get records from the server, each time a pager link is clicked
 Meteor.autosubscribe ->
 	Meteor.subscribe "contacts", Session.get("page_size"), Session.get("start_record"), Session.get("last_record")
@@ -23,11 +29,14 @@ Meteor.autosubscribe ->
 myFunc = (error, result) ->
 	if !error
 		pages = result / Session.get("page_size")
-		Session.set "total_pages", Number(pages.toFixed(0))
+		Session.set "total_pages", Number(pages.toFixed(0) + 1)
 		Session.set "total_records", result
   if error
   	alert error
 
+### This function will set the css classes
+		for enabling or disabling the pager buttons
+		in the Pager Template in myapp.html ###
 SetPagerButtons = ->
 	if Session.get("current_page") <= 1
 		Session.set "nextEnabled", ""
@@ -52,7 +61,6 @@ SetPagerButtons = ->
 
 $.extend Template.pager,
 CurrentPage: ->
-	Meteor.call("ContactsCount", myFunc)
 	Session.get("current_page")
 TotalPages: ->
 	Session.get("total_pages")
