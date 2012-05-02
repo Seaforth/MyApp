@@ -18,11 +18,6 @@ if Meteor.is_client
 	Meteor.startup ->
 		Meteor.call("ContactsCount", myFunc)
 
-#This will get records from the server, each time a pager link is clicked
-Meteor.autosubscribe ->
-	Meteor.subscribe "contacts", Session.get("page_size"), Session.get("start_record"), Session.get("last_record")
-
-
 ###	This is the call back function when the server
 		function 'Meteor.call("ContactsCount", myFunc)' is called
 		When the result from the server call is returned, this will be executed ###
