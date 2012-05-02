@@ -38,6 +38,7 @@ myFunc = (error, result) ->
 		for enabling or disabling the pager buttons
 		in the Pager Template in myapp.html ###
 SetPagerButtons = ->
+	Meteor.call("ContactsCount", myFunc)
 	if Session.get("current_page") <= 1
 		Session.set "nextEnabled", ""
 		Session.set "lastEnabled", ""
@@ -55,9 +56,6 @@ SetPagerButtons = ->
 		Session.set "firstEnabled", ""
 		Session.set "previousEnabled", ""
 		Session.set "last_record", false
-
-
-
 
 $.extend Template.pager,
 CurrentPage: ->
