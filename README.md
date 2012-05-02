@@ -1,6 +1,8 @@
 myApp
 =====
 
+New: Implemented Column Sorting by clicking on the headers
+
 A meteor project to learn and test features before implementing them in a major other project.
 This app implements a pager for browsing through large record sets.
 
